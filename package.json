@@ -19,12 +19,18 @@
     "supertest": "~0.8.2",
     "jshint": "~2.4.0",
     "jshint-stylish": "~0.1.4",
-    "chai": "~1.8.1"
+    "chai": "~1.8.1",
+    "blanket": "~1.1.6",
+    "mocha-lcov-reporter": "0.0.1",
+    "coveralls": "~2.6.1"
   },
   "scripts": {
     "test": "npm run lint && npm run mocha",
-    "mocha": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec test/",
-    "lint": "./node_modules/.bin/jshint --reporter ./node_modules/jshint-stylish/stylish.js ."
+    "build": "npm run coveralls",
+    "lint": "./node_modules/.bin/jshint --reporter ./node_modules/jshint-stylish/stylish.js .",
+    "mocha": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec ./test/",
+    "coverage": "NODE_ENV=test ./node_modules/.bin/mocha --require blanket --reporter mocha-lcov-reporter ./test/",
+    "coveralls": "npm run coverage | ./node_modules/coveralls/bin/coveralls.js"
   },
   "keywords": [
     "validation",
@@ -35,5 +41,10 @@
     "middleware"
   ],
   "author": "Jan Potoms",
-  "license": "MIT"
+  "license": "MIT",
+  "config": {
+    "blanket": {
+      "pattern": "express-validate/lib"
+    }
+  }
 }
