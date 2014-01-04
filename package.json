@@ -43,7 +43,8 @@
   "license": "MIT",
   "config": {
     "blanket": {
-      "pattern": "express-validate.js/lib"
+      "pattern": "lib/",
+      "data-cover-never": "node_modules/"
     }
   }
 }
