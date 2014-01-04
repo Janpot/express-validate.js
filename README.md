@@ -1,5 +1,4 @@
-#Express validate
-
+#Express validate [![Build Status](https://travis-ci.org/Janpot/express-validate.png?branch=master)](https://travis-ci.org/Janpot/express-validate)
 Express middleware wrapper for [validate.js](http://validatejs.org).
 
 ##Example
