@@ -294,4 +294,20 @@ describe('additional tests', function () {
       .get('/')
       .expect(400, done);
   });
+  
+  it('should 500 when bodyparser is omitted', function (done) {
+    request(express()
+      .post('/', validate({
+        param: {
+          scope: 'body',
+          presence: true
+        }
+      }), send200))
+      .post('/')
+      .send({
+        param: 'thing'
+      })
+      .expect(500, done);
+  });
+  
 });
