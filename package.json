@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "description": "Middleware wrapper for validate.js validation framework",
   "main": "lib/validate.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Janpot/express-validate.git"
+  },
   "directories": {
     "test": "test"
   },
@@ -15,14 +19,21 @@
     "supertest": "~0.8.2",
     "jshint": "~2.4.0",
     "jshint-stylish": "~0.1.4",
-    "chai": "~1.8.1",
-    "rewire": "~2.0.0"
+    "chai": "~1.8.1"
   },
   "scripts": {
     "test": "npm run lint && npm run mocha",
     "mocha": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec test/",
     "lint": "./node_modules/.bin/jshint --reporter ./node_modules/jshint-stylish/stylish.js ."
   },
+  "keywords": [
+    "validation",
+    "validator",
+    "validate",
+    "server",
+    "express",
+    "middleware"
+  ],
   "author": "Jan Potoms",
   "license": "MIT"
 }
