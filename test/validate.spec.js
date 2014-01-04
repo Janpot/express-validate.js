@@ -269,9 +269,11 @@ describe('middleware', function () {
   
   it('should 400 on invalid param in multiple scopes', function (done) {
     request(express()
+      .use(express.bodyParser())
+      .use(express.cookieParser())
       .get('/:param?', validate({
         param: {
-          scope: ['route', 'query'],
+          scope: ['route', 'query', 'body', 'cookies'],
           presence: true
         }
       }), send200))
@@ -281,9 +283,11 @@ describe('middleware', function () {
   
   it('should 200 on valid route param in multiple scopes', function (done) {
     request(express()
+      .use(express.bodyParser())
+      .use(express.cookieParser())
       .get('/:param?', validate({
         param: {
-          scope: ['route', 'query'],
+          scope: ['route', 'query', 'body', 'cookies'],
           presence: true
         }
       }), assertRequest('param', 'thing'), send200))
@@ -293,13 +297,47 @@ describe('middleware', function () {
   
   it('should 200 on valid query param in multiple scopes', function (done) {
     request(express()
+      .use(express.bodyParser())
+      .use(express.cookieParser())
       .get('/', validate({
         param: {
-          scope: ['route', 'query'],
+          scope: ['route', 'query', 'body', 'cookies'],
           presence: true
         }
       }), assertRequest('param', 'thing'), send200))
       .get('/?param=thing')
+      .expect(200, done);
+  });
+  
+  it('should 200 on valid body param in multiple scopes', function (done) {
+    request(express()
+      .use(express.bodyParser())
+      .use(express.cookieParser())
+      .post('/', validate({
+        param: {
+          scope: ['route', 'query', 'body', 'cookies'],
+          presence: true
+        }
+      }), assertRequest('param', 'thing'), send200))
+      .post('/')
+      .send({
+        param: 'thing'
+      })
+      .expect(200, done);
+  });
+  
+  it('should 200 on valid cookie param in multiple scopes', function (done) {
+    request(express()
+      .use(express.bodyParser())
+      .use(express.cookieParser())
+      .get('/', validate({
+        param: {
+          scope: ['route', 'query', 'body', 'cookies'],
+          presence: true
+        }
+      }), assertRequest('param', 'thing'), send200))
+      .get('/')
+      .set('Cookie', 'param=thing')
       .expect(200, done);
   });
 });
