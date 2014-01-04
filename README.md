@@ -1,6 +1,6 @@
 #Express validate.js [![NPM version](https://badge.fury.io/js/express-validate.js.png)](http://badge.fury.io/js/express-validate.js) [![Build Status](https://travis-ci.org/Janpot/express-validate.png?branch=master)](https://travis-ci.org/Janpot/express-validate) [![Coverage Status](https://coveralls.io/repos/Janpot/express-validate/badge.png?branch=master)](https://coveralls.io/r/Janpot/express-validate?branch=master)
 
-Middleware wrapper for validate.js validation framework
+Middleware wrapper for [validate.js](http://validatejs.org) validation framework
 
 ##Installation
 
