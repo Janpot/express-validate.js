@@ -5,7 +5,7 @@
   "main": "lib/validate.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Janpot/express-validate.git"
+    "url": "https://github.com/Janpot/express-validate.js.git"
   },
   "directories": {
     "test": "test"
