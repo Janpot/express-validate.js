@@ -35,6 +35,7 @@ This middleware is configured the same way as [validate.js](http://validatejs.or
 - `route`: Check for values in the route parameters of the request
 - `body`: Check for parameters in the request body, requires `express.bodyParser`
 - `query`: Check for parameters in the querystring of the request
+- `cookies`: Check for parameters in the cookies, requires `cookieParser`
 
 If scope is an array, the first scope that has a corresponding value wins. Scope must always be defined.
 

@@ -9,7 +9,7 @@ var assert   = require('chai').assert,
 
 
   
-var VALID_SCOPES = ['route', 'body', 'query'];
+var VALID_SCOPES = ['route', 'body', 'query', 'cookies'];
 
   
 function send200(req, res) {
@@ -210,6 +210,33 @@ describe('middleware', function () {
       .expect(200, done);
   });
   
+  it('should 400 on invalid cookie within scope', function (done) {
+    request(express()
+      .use(express.cookieParser())
+      .get('/', validate({
+        param: {
+          scope: 'cookies',
+          presence: true
+        }
+      }), send200))
+      .get('/')
+      .expect(400, done);
+  });
+  
+  it('should 200 on valid cookie within scope', function (done) {
+    request(express()
+      .use(express.cookieParser())
+      .get('/', validate({
+        param: {
+          scope: 'cookies',
+          presence: true
+        }
+      }), assertRequest('param', 'thing'), send200))
+      .get('/')
+      .set('Cookie', 'param=thing')
+      .expect(200, done);
+  });
+  
   it('should 400 on invalid body param within scope', function (done) {
     request(express()
       .use(express.bodyParser())
@@ -295,7 +322,7 @@ describe('additional tests', function () {
       .expect(400, done);
   });
   
-  it('should 500 when bodyparser is omitted', function (done) {
+  it('should 500 when bodyParser is omitted', function (done) {
     request(express()
       .post('/', validate({
         param: {
@@ -307,6 +334,18 @@ describe('additional tests', function () {
       .send({
         param: 'thing'
       })
+      .expect(500, done);
+  });
+  
+  it('should 500 when cookieParser is omitted', function (done) {
+    request(express()
+      .get('/', validate({
+        param: {
+          scope: 'cookies',
+          presence: true
+        }
+      }), send200))
+      .get('/')
       .expect(500, done);
   });
   
