@@ -25,8 +25,7 @@
     "coveralls": "~2.6.1"
   },
   "scripts": {
-    "test": "npm run lint && npm run mocha",
-    "build": "npm run coveralls",
+    "test": "npm run lint && npm run mocha && npm run coveralls",
     "lint": "./node_modules/.bin/jshint --reporter ./node_modules/jshint-stylish/stylish.js .",
     "mocha": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec ./test/",
     "coverage": "NODE_ENV=test ./node_modules/.bin/mocha --require blanket --reporter mocha-lcov-reporter ./test/",
