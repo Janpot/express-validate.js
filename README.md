@@ -41,7 +41,7 @@ If scope is an array, the first scope that has a corresponding value wins. Scope
 
 In case of invalid values, the validator responds with a 400 response containing the result of the validation. Otherwise the validated parameters are attached to the request in the `valid` object.
 
-In the same way as can be done to [validate.js](http://validatejs.org/#custom-validator) custom validators can be attached to `validate.validators`
+In the same way as can be done to [validate.js](http://validatejs.org/#custom-validator), custom validators can be attached to `validate.validators`
 
 ##License
 
