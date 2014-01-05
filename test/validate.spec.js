@@ -60,7 +60,15 @@ describe('middleware creation', function () {
       assert.doesNotThrow(function () {
         validate({
           thing: {
-            scope: scope
+            scope: scope.toLowerCase()
+          }
+        });
+      });
+      
+      assert.doesNotThrow(function () {
+        validate({
+          thing: {
+            scope: scope.toUpperCase()
           }
         });
       });
