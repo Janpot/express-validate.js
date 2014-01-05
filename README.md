@@ -57,15 +57,11 @@ Following requests are rejected:
       ]
     }
 
-    curl http://localhost:3000/user/abcde
+    curl http://localhost:3000/user/abcde/-1
     => {
       "userId": [
         "User id must be a five digit number"
-      ]
-    }
-
-    curl http://localhost:3000/user/12345/-1
-    => {
+      ],
       "page": [
         "Page must be greater than or equal to 0"
       ]
@@ -85,6 +81,12 @@ If scope is an array, the first scope that has a corresponding value wins. Scope
 In case of invalid values, the validator responds with a 400 response containing the result of the validation. Otherwise the validated parameters are attached to the request in the `valid` object.
 
 In the same way as can be done to [validate.js](http://validatejs.org/#custom-validator), custom validators can be attached to `validate.validators`
+
+the response content in case of an error can be customized. To do this add a `customResponse` function to `validate`. The function will receive the `validate.js` result object and it's return value is used as the response for invalid parameters:
+
+    validate.customResponse = function (errors) {
+      return 'Nothing to see here';
+    };
 
 ##License
 

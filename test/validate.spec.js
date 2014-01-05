@@ -1,4 +1,4 @@
-/* global describe, it */
+/* global describe, it, beforeEach, afterEach */
 
 'use strict';
 
@@ -385,6 +385,61 @@ describe('additional tests', function () {
       }), send200))
       .get('/')
       .expect(500, done);
+  });
+  
+});
+
+
+describe('customResponse', function () {
+  
+  function resetCustomresponse() {
+    validate.customResponse = undefined;
+  }
+  
+  beforeEach(resetCustomresponse);
+  afterEach(resetCustomresponse);
+  
+  it('should be used when defined', function (done) {
+    validate.customResponse = function () {
+      return 'custom response';
+    };
+    
+    request(express()
+      .get('/:param?', validate({
+        param: {
+          scope: 'route',
+          presence: true
+        }
+      }), send200))
+      .get('/')
+      .expect(400, function (err, res) {
+        assert.strictEqual(res.text, 'custom response');
+        done(err);
+      });
+  });
+  
+  it('should output validate.js result when undefined', function (done) {
+    var validateLib = require('validate.js');
+    validateLib.validators.scope = function () {
+      return null;
+    };
+    
+    var constraints = {
+      param: {
+        scope: 'route',
+        presence: true
+      }
+    };
+    
+    var validateResult = validateLib({}, constraints);
+    
+    request(express()
+      .get('/:param?', validate(constraints), send200))
+      .get('/')
+      .expect(400, function (err, res) {
+        assert.deepEqual(res.body, validateResult);
+        done(err);
+      });
   });
   
 });
