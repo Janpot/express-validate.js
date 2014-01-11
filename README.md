@@ -40,25 +40,25 @@ express()
 Following requests validate:
 
     curl http://localhost:3000/user/12345
-    => User 12345 is on page 0
+    => 200: User 12345 is on page 0
 
     curl http://localhost:3000/user/12345?page=1
-    => User 12345 is on page 1
+    => 200: User 12345 is on page 1
 
     curl http://localhost:3000/user/12345/14
-    => User 12345 is on page 14
+    => 200: User 12345 is on page 14
 
 Following requests are rejected:
 
     curl http://localhost:3000/user/1234
-    => {
+    => 400: {
       "userId": [
         "User id must be a five digit number"
       ]
     }
 
     curl http://localhost:3000/user/abcde/-1
-    => {
+    => 400: {
       "userId": [
         "User id must be a five digit number"
       ],
