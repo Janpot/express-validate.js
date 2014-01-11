@@ -1,4 +1,4 @@
-#Express validate.js [![Build Status](https://travis-ci.org/Janpot/express-validate.js.png?branch=master)](https://travis-ci.org/Janpot/express-validate.js) [![Coverage Status](https://coveralls.io/repos/Janpot/express-validate.js/badge.png?branch=master)](https://coveralls.io/r/Janpot/express-validate.js?branch=master)
+#Express validate.js [![Build Status](https://travis-ci.org/Janpot/express-validate.js.png?branch=master)](https://travis-ci.org/Janpot/express-validate.js) [![Coverage Status](https://coveralls.io/repos/Janpot/express-validate.js/badge.png?branch=master)](https://coveralls.io/r/Janpot/express-validate.js?branch=master) [![Dependency Status](https://david-dm.org/Janpot/express-validate.js.png?theme=shields.io)](https://david-dm.org/Janpot/express-validate.js)
 
 Middleware wrapper for [validate.js](http://validatejs.org) validation framework
 
