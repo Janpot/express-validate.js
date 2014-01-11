@@ -71,12 +71,12 @@ Following requests are rejected:
 
 This middleware is configured the same way as [validate.js](http://validatejs.org/#constraints) with an additional scope constraint. This can either be a string or an array containing one of following values:
 
-- `route`: Check for values in the route parameters of the request
+- `route`: Check for values in the route parameters of the request (default)
 - `body`: Check for parameters in the request body, requires `express.bodyParser`
 - `query`: Check for parameters in the querystring of the request
 - `cookies`: Check for parameters in the cookies, requires `cookieParser`
 
-If scope is an array, the first scope that has a corresponding value wins. Scope must always be defined.
+If scope is an array, the first scope that has a corresponding value wins. If no scope is provided, `route` scope is used to evaluate parameters.
 
 In case of invalid values, the validator responds with a 400 response containing the result of the validation. Otherwise the validated parameters are attached to the request in the `valid` object.
 

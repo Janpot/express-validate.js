@@ -44,14 +44,6 @@ describe('middleware creation', function () {
         }
       });
     });
-    
-    assert.throws(function () {
-      validate({
-        thing: {
-          
-        }
-      });
-    });
   });
   
   it('shouldn\'t throw on valid scope', function () {
@@ -78,6 +70,14 @@ describe('middleware creation', function () {
       validate({
         thing: {
           scope: VALID_SCOPES
+        }
+      });
+    });
+    
+    assert.doesNotThrow(function () {
+      validate({
+        thing: {
+          
         }
       });
     });
@@ -192,6 +192,28 @@ describe('middleware', function () {
       }), assertRequest('param', 'thing'), send200))
       .get('/thing')
       .expect(200, done);
+  });
+  
+  it('should default to route param on undefined scope', function (done) {
+    request(express()
+      .get('/:param?', validate({
+        param: {
+          presence: true
+        }
+      }), send200))
+      .get('/')
+      .expect(400, done);
+  });
+  
+  it('shouldn\'t default to query param on undefined scope', function (done) {
+    request(express()
+      .get('/:param?', validate({
+        param: {
+          presence: true
+        }
+      }), send200))
+      .get('/?param=thing')
+      .expect(400, done);
   });
   
   it('should 400 on invalid query param within scope', function (done) {
