@@ -25,7 +25,7 @@
     "coveralls": "~2.6.1"
   },
   "scripts": {
-    "test": "npm run lint && npm run mocha && npm run coveralls",
+    "test": "npm run lint && npm run mocha",
     "lint": "./node_modules/.bin/jshint --reporter ./node_modules/jshint-stylish/stylish.js .",
     "mocha": "NODE_ENV=test ./node_modules/.bin/mocha -R spec ./test/",
     "watch-mocha": "NODE_ENV=test ./node_modules/.bin/mocha -w -R spec ./test/",
