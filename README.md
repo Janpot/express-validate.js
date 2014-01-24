@@ -87,6 +87,8 @@ the response content in case of an error can be customized. To do this add a `cu
     validate.customResponse = function (errors) {
       return 'Nothing to see here';
     };
+    
+validate.js supports [async validators](http://validatejs.org/#validate-async). express-validate.js evaluates constraints asynchronously if a supported Promise libarary is detected. Analog to validate.js a compatible promise library can be set through `validate.Promise`
 
 ##License
 

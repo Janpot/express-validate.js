@@ -16,9 +16,15 @@ function send200(req, res) {
   res.send(200);
 }
 
+  
+function assertRequest(parameter, value) {
+  return function (req, res, next) {
+    assert.deepPropertyVal(req, 'valid.' + parameter, value);
+    next();
+  };
+}
 
 describe('middleware creation', function () {
-    
   
   it('should throw on invalid scope', function () {
     assert.throws(function () {
@@ -78,17 +84,6 @@ describe('middleware creation', function () {
       validate({
         thing: {
           
-        }
-      });
-    });
-  });
-  
-  it('should throw on invalid validator', function () {
-    assert.throws(function () {
-      validate({
-        thing: {
-          scope: VALID_SCOPES,
-          invalidValidator: {}
         }
       });
     });
@@ -163,12 +158,17 @@ describe('custom validators', function () {
 
 describe('middleware', function () {
   
-  function assertRequest(parameter, value) {
-    return function (req, res, next) {
-      assert.deepPropertyVal(req, 'valid.' + parameter, value);
-      next();
-    };
-  }
+  it('should 500 on invalid validator', function (done) {
+    request(express()
+      .get('/:param', validate({
+        param: {
+          scope: 'route',
+          invalidValidator: {}
+        }
+      }), send200))
+      .get('/thing')
+      .expect(500, done);
+  });
   
   it('should 400 on invalid route param within scope', function (done) {
     request(express()
@@ -449,11 +449,6 @@ describe('customResponse', function () {
   });
   
   it('should output validate.js result when undefined', function (done) {
-    var validateLib = require('validate.js');
-    validateLib.validators.scope = function () {
-      return null;
-    };
-    
     var constraints = {
       param: {
         scope: 'route',
@@ -461,6 +456,11 @@ describe('customResponse', function () {
       }
     };
     
+    // get original validate result
+    var validateLib = require('validate.js');
+    validateLib.validators.scope = function () {
+      return null;
+    };
     var validateResult = validateLib({}, constraints);
     
     request(express()
@@ -472,4 +472,49 @@ describe('customResponse', function () {
       });
   });
   
+});
+
+
+describe('async', function () {
+  
+  var tinyPromise = require('./tinyPromise');
+  validate.validators.asyncAlwaysPass = function () {
+    return tinyPromise(function (resolve) {
+      setImmediate(resolve);
+    });
+  };
+  
+  it('should 500 when async validated without support', function (done) {
+    
+    request(express()
+      .get('/:param?', validate({
+        param: {
+          asyncAlwaysPass: true
+        }
+      }), send200))
+      .get('/something')
+      .expect(500, done);
+    
+  });
+  
+  it('shouldn\'t 500 when async validated with support', function (done) {
+    
+    var oldPromise = validate.Promise;
+    validate.Promise = tinyPromise;
+    
+    request(express()
+      .get('/:param?', validate({
+        param: {
+          asyncAlwaysPass: true
+        }
+      }), assertRequest('param', 'something'), send200))
+      .get('/something')
+      .expect(200, function () {
+        done();
+        validate.Promise = oldPromise;
+      });
+    
+    
+  });
+
 });
