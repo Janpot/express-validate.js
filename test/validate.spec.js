@@ -121,6 +121,16 @@ describe('custom validators', function () {
     assert.isObject(validate.validators);
   });
   
+  it('shouldn\'t be able to change validators object', function () {
+    assert.throws(function () {
+      validate.validators = {
+        custom: function () {
+
+        }
+      };
+    });
+  });
+  
   it('should fail alwaysFail validator', function (done) {
     validate.validators.alwaysFail = function () {
       return 'Fail';
