@@ -1,6 +1,6 @@
 {
   "name": "express-validate.js",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Middleware wrapper for validate.js validation framework",
   "main": "lib/validate.js",
   "repository": {
