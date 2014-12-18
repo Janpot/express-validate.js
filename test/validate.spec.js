@@ -5,7 +5,9 @@
 var assert   = require('chai').assert,
     validate = require('../'),
     express  = require('express'),
-    request  = require('supertest');
+    request  = require('supertest'),
+    bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser');
 
 
   
@@ -13,7 +15,7 @@ var VALID_SCOPES = ['route', 'body', 'query', 'cookies'];
 
   
 function send200(req, res) {
-  res.send(200);
+  res.status(200).end();
 }
 
   
@@ -252,7 +254,7 @@ describe('middleware', function () {
   
   it('should 400 on invalid cookie within scope', function (done) {
     request(express()
-      .use(express.cookieParser())
+      .use(cookieParser())
       .get('/', validate({
         param: {
           scope: 'cookies',
@@ -265,7 +267,7 @@ describe('middleware', function () {
   
   it('should 200 on valid cookie within scope', function (done) {
     request(express()
-      .use(express.cookieParser())
+      .use(cookieParser())
       .get('/', validate({
         param: {
           scope: 'cookies',
@@ -279,7 +281,7 @@ describe('middleware', function () {
   
   it('should 400 on invalid body param within scope', function (done) {
     request(express()
-      .use(express.bodyParser())
+      .use(bodyParser.json())
       .post('/', validate({
         param: {
           scope: 'body',
@@ -293,7 +295,7 @@ describe('middleware', function () {
   
   it('should 200 on valid body param within scope', function (done) {
     request(express()
-      .use(express.bodyParser())
+      .use(bodyParser.json())
       .post('/', validate({
         param: {
           scope: 'body',
@@ -309,8 +311,8 @@ describe('middleware', function () {
   
   it('should 400 on invalid param in multiple scopes', function (done) {
     request(express()
-      .use(express.bodyParser())
-      .use(express.cookieParser())
+      .use(bodyParser.json())
+      .use(cookieParser())
       .get('/:param?', validate({
         param: {
           scope: ['route', 'query', 'body', 'cookies'],
@@ -323,8 +325,8 @@ describe('middleware', function () {
   
   it('should 200 on valid route param in multiple scopes', function (done) {
     request(express()
-      .use(express.bodyParser())
-      .use(express.cookieParser())
+      .use(bodyParser.json())
+      .use(cookieParser())
       .get('/:param?', validate({
         param: {
           scope: ['route', 'query', 'body', 'cookies'],
@@ -337,8 +339,8 @@ describe('middleware', function () {
   
   it('should 200 on valid query param in multiple scopes', function (done) {
     request(express()
-      .use(express.bodyParser())
-      .use(express.cookieParser())
+      .use(bodyParser.json())
+      .use(cookieParser())
       .get('/', validate({
         param: {
           scope: ['route', 'query', 'body', 'cookies'],
@@ -351,8 +353,8 @@ describe('middleware', function () {
   
   it('should 200 on valid body param in multiple scopes', function (done) {
     request(express()
-      .use(express.bodyParser())
-      .use(express.cookieParser())
+      .use(bodyParser.json())
+      .use(cookieParser())
       .post('/', validate({
         param: {
           scope: ['route', 'query', 'body', 'cookies'],
@@ -368,8 +370,8 @@ describe('middleware', function () {
   
   it('should 200 on valid cookie param in multiple scopes', function (done) {
     request(express()
-      .use(express.bodyParser())
-      .use(express.cookieParser())
+      .use(bodyParser.json())
+      .use(cookieParser())
       .get('/', validate({
         param: {
           scope: ['route', 'query', 'body', 'cookies'],
